@@ -1,13 +1,9 @@
-import asyncio
+import openai
 import logging
-from openai import OpenAI, OpenAIError
-from openai import OpenAI
-from openai import OpenAI, OpenAIError
+from openai.error import OpenAIError
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
 from typing import List
-from openai.types import ErrorObject, FunctionDefinition, FunctionParameters
-from openai.types import Completion, CompletionChoice, CompletionUsage
 
 
 def write_results_to_file(results: List[str]) -> None:
@@ -33,7 +29,7 @@ def prepare_prompt(topic: str) -> str:
 
 
 def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
-    response = client.chat.completions.create(
+    response = client.create_completion(
         model="gpt-3.5-turbo-0125",
         prompt=prompt,
         max_tokens=200,
@@ -49,7 +45,7 @@ def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
 class ResearchAgent:
     def __init__(self, openai_api_key: str = 'your-api-key', cache_ttl: int = 3600):
         self.openai_api_key = openai_api_key
-        self.client = OpenAI(api_key=openai_api_key)
+        self.client = openai.Client(api_key=openai_api_key)
         self.cache = TTLCache(maxsize=100, ttl=cache_ttl)
 
     async def execute_and_write_research(self, plan: List[str], progress_tracker) -> List[str]:
