@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from openai import OpenAI, OpenAIError
-import openai
+from openai import OpenAI
 from openai import OpenAI, OpenAIError
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
@@ -32,8 +32,8 @@ def prepare_prompt(topic: str) -> str:
     return f"Create a research plan for the topic: {topic}\n\nPlan:"
 
 
-def get_plan_from_openai(client, prompt: str) -> List[str]:
-    response = client.Completion.create(
+def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
+    response = client.ChatCompletion.create(
         model="gpt-3.5-turbo-0125",
         prompt=prompt,
         max_tokens=200,
@@ -42,7 +42,7 @@ def get_plan_from_openai(client, prompt: str) -> List[str]:
         stop=None,
         logprobs=None
     )
-    plan_text = response['choices'][0]['text'].strip()
+    plan_text = response['choices'][0]['message']['content'].strip()
     return plan_text.split("\n")
 
 
