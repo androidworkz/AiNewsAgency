@@ -1,10 +1,7 @@
-import asyncio
-import logging
-import aiohttp
-from duckduckgo_search import search_images  # Replace 'search_images' with the correct function name
+from duckduckgo_search import DDGS
 from cachetools import TTLCache
 from typing import List
-from aiohttp import ClientSession, ClientError
+from typing import Dict
 
 class ImageAgent:
     def __init__(self, cache_ttl: int = 3600):
@@ -25,25 +22,23 @@ class ImageAgent:
     def __init__(self, cache_ttl: int = 3600):
         self.cache = TTLCache(maxsize=100, ttl=cache_ttl)
 
-    async def retrieve_images(self, topic: str, progress_tracker) -> List[str]:
+    def retrieve_images(self, topic: str, progress_tracker) -> List[str]:
         progress_tracker.start_task("ImageAgent", "Retrieve Images")
         if topic in self.cache:
             progress_tracker.complete_task("ImageAgent", "Retrieve Images")
             return self.cache[topic]
 
-        try:
-            image_results = ddg_images(topic, max_results=5)
-            image_urls = [result["image"] for result in image_results]
+        image_results = DDGS().images(keywords=topic, max_results=5)
+        image_urls = [result["image"] for result in image_results]
 
-            tasks = []
-            for i, image_url in enumerate(image_urls):
-                task = asyncio.ensure_future(self.download_image(image_url, i))
-                tasks.append(task)
+        for i, image_url in enumerate(image_urls):
+            self.download_image(image_url, i)
 
-            await asyncio.gather(*tasks)
             self.cache[topic] = image_urls
             progress_tracker.complete_task("ImageAgent", "Retrieve Images")
             return image_urls
-        except IOError as e:
-            logging.error(f"Error downloading images: {e}")
-            raise
+
+    def download_image(self, url: str, index: int):
+        # This method should contain the logic to download the image from the URL and save it locally.
+        # The implementation details are omitted here and should be provided based on the specific requirements.
+        pass
