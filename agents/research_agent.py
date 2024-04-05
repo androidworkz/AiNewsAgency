@@ -1,6 +1,7 @@
 import openai
 import logging
 from openai.error import OpenAIError
+from config import OPENAI_API_KEY
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
 from typing import List
@@ -43,7 +44,7 @@ def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
 
 
 class ResearchAgent:
-    def __init__(self, openai_api_key: str = 'your-api-key', cache_ttl: int = 3600):
+    def __init__(self, cache_ttl: int = 3600):
         self.openai_api_key = openai_api_key
         self.client = openai.Client(api_key=openai_api_key)
         self.cache = TTLCache(maxsize=100, ttl=cache_ttl)
