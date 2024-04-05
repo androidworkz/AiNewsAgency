@@ -17,7 +17,7 @@ def write_results_to_file(results: List[str]) -> None:
         raise
 
 
-def execute_research(plan: List[str]) -> List[str]:
+async def execute_research(plan: List[str]) -> List[str]:
     results = []
     for topic in plan:
         search_results = DDGS.text(topic, max_results=5)

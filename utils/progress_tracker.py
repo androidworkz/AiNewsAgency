@@ -27,9 +27,13 @@ class ProgressTracker:
             report += f"\n{agent_name}:\n"
             for task_name, task_details in tasks.items():
                 start_time = task_details["start_time"]
-                end_time = task_details.get("end_time", time.time())
-                duration = end_time - start_time
-                status = task_details["status"]
+                end_time = task_details.get("end_time")
+                if end_time is None:
+                    status = task_details["status"] + " (In Progress)"
+                    duration = time.time() - start_time
+                else:
+                    status = task_details["status"]
+                    duration = end_time - start_time
                 report += f"  - {task_name}: {status} (Duration: {duration:.2f} seconds)\n"
         logging.info(report)
         return report

@@ -51,7 +51,7 @@ class EditorAgent:
             logging.warning("Maximum iterations reached. Article may not be complete.")
 
         self.progress_tracker.complete_task("EditorAgent", "Start Editing Process")
-        self.progress_tracker.generate_report()
+        await self.progress_tracker.generate_report()
 
     def approve_research_plan(self, plan: List[str]) -> bool:
         required_sections = ["introduction", "background", "current_state", "future_developments", "conclusion"]

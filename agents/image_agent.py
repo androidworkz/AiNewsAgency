@@ -7,7 +7,11 @@ from typing import List
 from aiohttp import ClientSession, ClientError
 
 
-    async def download_image(self, url: str, index: int):
+    class ImageAgent:
+        def __init__(self, cache_ttl: int = 3600):
+            self.cache = TTLCache(maxsize=100, ttl=cache_ttl)
+
+        async def download_image(self, url: str, index: int):
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as response:
