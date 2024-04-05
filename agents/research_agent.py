@@ -1,7 +1,6 @@
-from openai import OpenAI
 import asyncio
 import logging
-import openai.error
+from openai import OpenAI, error as openai_error
 from openai import OpenAI
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
@@ -67,6 +66,6 @@ class ResearchAgent:
             self.cache[topic] = plan
             progress_tracker.complete_task("ResearchAgent", "Create Research Plan")
             return plan
-        except openai.error.OpenAIError as e:
+        except openai_error.OpenAIError as e:
             logging.error(f"OpenAI API error: {e}")
             raise
