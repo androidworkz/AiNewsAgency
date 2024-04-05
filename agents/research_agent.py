@@ -1,10 +1,9 @@
 import openai
 import logging
-from openai import OpenAI
+from openai import Client
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
 from typing import List
-from main import client
 
 def write_results_to_file(results: List[str]) -> None:
     try:
@@ -60,7 +59,7 @@ def get_plan_from_openai(prompt: str) -> List[str]:
 
 
 class ResearchAgent:
-    def __init__(self, cache_ttl: int = 3600):
+    def __init__(self, client: Client, cache_ttl: int = 3600):
         self.client = client
         self.cache = TTLCache(maxsize=100, ttl=cache_ttl)
 
