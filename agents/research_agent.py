@@ -1,6 +1,7 @@
 from openai import OpenAI
 import asyncio
 import logging
+import openai.error
 from openai import OpenAI
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
@@ -32,7 +33,7 @@ def prepare_prompt(topic: str) -> str:
 
 
 def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
-    response = client.completions.create(
+    response = client.ChatCompletion.create(
         model="gpt-4-0125-preview",
         prompt=prompt,
         max_tokens=200,
@@ -66,6 +67,6 @@ class ResearchAgent:
             self.cache[topic] = plan
             progress_tracker.complete_task("ResearchAgent", "Create Research Plan")
             return plan
-        except OpenAIError as e:
+        except openai.error.OpenAIError as e:
             logging.error(f"OpenAI API error: {e}")
             raise
