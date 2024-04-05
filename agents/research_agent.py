@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from openai import OpenAI, OpenAIError
+import openai
 from openai import OpenAI, OpenAIError
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
