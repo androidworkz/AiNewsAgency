@@ -1,3 +1,4 @@
+import openai
 import asyncio
 import logging
 from openai import OpenAI
