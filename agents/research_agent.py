@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from openai import AsyncOpenAI
+from openai import OpenAI
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
 from typing import List
@@ -30,16 +30,16 @@ def prepare_prompt(topic: str) -> str:
     return f"Create a research plan for the topic: {topic}\n\nPlan:"
 
 
-async def get_plan_from_openai(prompt: str) -> List[str]:
-    client = AsyncOpenAI()
-    response = await client.chat.completions.create(
+def get_plan_from_openai(prompt: str) -> str:
+    client = OpenAI()
+    response = client.Completion.create(
         model="gpt-4-0125-preview",
         messages=[{"role": "system", "content": "You are a helpful assistant."},
                   {"role": "user", "content": prompt}],
         max_tokens=200,
         temperature=0.7,
     )
-    plan_text = response["choices"][0]["message"]["content"].strip()
+    plan_text = response.choices[0].message["content"].strip()
     return plan_text.split("\n")
 
 
