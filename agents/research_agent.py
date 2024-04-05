@@ -1,4 +1,4 @@
-import openai
+from openai import OpenAI
 import asyncio
 import logging
 from openai import OpenAI
@@ -31,8 +31,8 @@ def prepare_prompt(topic: str) -> str:
     return f"Create a research plan for the topic: {topic}\n\nPlan:"
 
 
-def get_plan_from_openai(prompt: str) -> str:
-    response = openai.Completion.create(
+def get_plan_from_openai(client: OpenAI, prompt: str) -> str:
+    response = client.Completion.create(
         model="gpt-4-0125-preview",
         prompt=prompt,
         max_tokens=200,
@@ -45,7 +45,7 @@ def get_plan_from_openai(prompt: str) -> str:
 class ResearchAgent:
     def __init__(self, openai_api_key: str = 'your-api-key', cache_ttl: int = 3600):
         self.openai_api_key = openai_api_key
-        openai.api_key = openai_api_key
+        self.client = OpenAI(api_key=openai_api_key)
         self.cache = TTLCache(maxsize=100, ttl=cache_ttl)
 
     async def execute_and_write_research(self, plan: List[str], progress_tracker) -> List[str]:
@@ -62,7 +62,7 @@ class ResearchAgent:
             return self.cache[topic]
         try:
             prompt = prepare_prompt(topic)
-            plan = get_plan_from_openai(prompt)
+            plan = get_plan_from_openai(self.client, prompt)
             self.cache[topic] = plan
             progress_tracker.complete_task("ResearchAgent", "Create Research Plan")
             return plan
