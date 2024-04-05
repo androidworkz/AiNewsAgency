@@ -44,6 +44,17 @@ class ImageAgent:
             return image_urls
 
     async def download_image(self, url: str, index: int):
-        # This method should contain the logic to download the image from the URL and save it locally.
-        # The implementation details are omitted here and should be provided based on the specific requirements.
-        pass
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    if response.status == 200:
+                        image_data = await response.read()
+                        filename = f"image_{index + 1}.jpg"
+                        with open(filename, "wb") as file:
+                            file.write(image_data)
+                        logging.info(f"Downloaded image saved as {filename}.")
+                    else:
+                        logging.error(f"Failed to download image. Status code: {response.status}")
+        except aiohttp.ClientError as e:
+            logging.error(f"Error downloading image: {e}")
+            raise
