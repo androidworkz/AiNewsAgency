@@ -27,11 +27,11 @@ This application is an AI-powered system that automates the process of researchi
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/ai-research-and-writing.git
+git clone https://github.com/androidworkz/AiNewsAgency.git
 ```
 2. navigate to the project directory:
 ```bash
-cd ai-research-and-writing
+cd AiNewsAgency
 ```
 3. Create a virtual environment (optional but recommended):
 
