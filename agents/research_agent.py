@@ -31,13 +31,16 @@ def prepare_prompt(topic: str) -> str:
 
 
 def get_plan_from_openai(prompt: str) -> List[str]:
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4-0125-preview",
-        prompt=prompt,
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ],
         max_tokens=200,
         temperature=0.7,
     )
-    plan_text = response.choices[0].text.strip()
+    plan_text = response["choices"][0]["message"]["content"].strip()
     return plan_text.split("\n")
 
 
