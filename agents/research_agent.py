@@ -1,6 +1,6 @@
 import openai
 import logging
-from openai.error import APIError, APIConnectionError, RateLimitError, APIStatusError
+from openai.error import OpenAIError, RateLimitError, APIConnectionError, APIRequestError
 from config import OPENAI_API_KEY
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
@@ -29,7 +29,7 @@ def prepare_prompt(topic: str) -> str:
     return f"Create a research plan for the topic: {topic}\n\nPlan:"
 
 
-def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
+def get_plan_from_openai(client: openai.Client, prompt: str) -> List[str]:
     try:
         response = client.create_completion(
             model="gpt-3.5-turbo-0125",
@@ -46,15 +46,15 @@ def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
         logging.error("The server could not be reached")
         logging.error(e.__cause__)
         raise
-    except RateLimitError as e:
+    except openai.error.RateLimitError as e:
         logging.error("A 429 status code was received; we should back off a bit.")
         raise
-    except APIStatusError as e:
+    except openai.error.APIRequestError as e:
         logging.error("Another non-200-range status code was received")
         logging.error(f"Status code: {e.status_code}")
         logging.error(f"Response: {e.response}")
         raise
-    except APIError as e:
+    except OpenAIError as e:
         logging.error("An error occurred with the OpenAI API")
         logging.error(e)
         raise
