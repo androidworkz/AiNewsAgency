@@ -1,7 +1,10 @@
+import aiohttp
+import logging
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
 from typing import List
 from typing import Dict
+from main import client
 
 class ImageAgent:
     def __init__(self, cache_ttl: int = 3600):
