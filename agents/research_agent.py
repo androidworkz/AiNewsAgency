@@ -30,8 +30,9 @@ def prepare_prompt(topic: str) -> str:
     return f"Create a research plan for the topic: {topic}\n\nPlan:"
 
 
-def get_plan_from_openai(prompt: str) -> List[str]:
-    response = openai.ChatCompletion.create(
+async def get_plan_from_openai(prompt: str) -> List[str]:
+    client = AsyncOpenAI()
+    response = await client.chat.completions.create(
         model="gpt-4-0125-preview",
         messages=[{"role": "system", "content": "You are a helpful assistant."},
                   {"role": "user", "content": prompt}],
