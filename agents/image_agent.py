@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import aiohttp
-from duckduckgo_search import ddg_images
+from duckduckgo_search import search_images  # Replace 'search_images' with the correct function name
 from cachetools import TTLCache
 from typing import List
 from aiohttp import ClientSession, ClientError
