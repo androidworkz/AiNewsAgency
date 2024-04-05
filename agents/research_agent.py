@@ -1,6 +1,6 @@
 import openai
 import logging
-from openai.error import OpenAIError
+from openai import OpenAIError
 from config import OPENAI_API_KEY
 from duckduckgo_search import DDGS
 from cachetools import TTLCache
