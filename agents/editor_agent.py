@@ -123,18 +123,19 @@ class EditorAgent:
         return "The article looks good. No further changes needed."
 
     def update_topic(self, topic: str, feedback: str) -> str:
-        if "missing sections" in feedback:
-            missing_sections = feedback.split(": ")[1].split(". ")[0]
-            return f"{topic} (Focus on adding: {missing_sections})"
-        elif "more sources" in feedback:
-            return f"{topic} (Include more sources)"
-        elif "too short" in feedback:
-            return f"{topic} (Provide more detailed information)"
-        elif "more relevant keywords" in feedback:
-            return f"{topic} (Focus on AI, machine learning, deep learning, neural networks)"
-        elif "elaborate" in feedback:
-            return f"{topic} (Elaborate on the topic)"
-        elif "plagiarism" in feedback:
-            return f"{topic} (Rephrase and ensure originality)"
-        else:
-            return topic
+        import re
+        missing_sections_match = re.search(r"missing the following sections: (.+?)\. Please", feedback)
+        if missing_sections_match:
+            missing_sections = missing_sections_match.group(1)
+            return f"{topic} (Add sections: {missing_sections})"
+        if "more sources" in feedback:
+            return f"{topic} (Add more sources)"
+        if "too short" in feedback:
+            return f"{topic} (Details needed)"
+        if "more relevant keywords" in feedback:
+            return f"{topic} (Include AI-related keywords)"
+        if "elaborate" in feedback:
+            return f"{topic} (Elaborate more)"
+        if "plagiarism" in feedback:
+            return f"{topic} (Avoid plagiarism)"
+        return topic
