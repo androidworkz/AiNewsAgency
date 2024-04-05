@@ -15,7 +15,7 @@ async def main():
     progress_tracker = ProgressTracker()
     research_agent = ResearchAgent(client)
     writer_agent = WriterAgent()
-    image_agent = ImageAgent()
+    image_agent = ImageAgent(client)
     editor_agent = EditorAgent(research_agent, writer_agent, image_agent, progress_tracker)
 
     topic = "Latest advancements in artificial intelligence"
