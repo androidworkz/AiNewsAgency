@@ -31,8 +31,8 @@ def prepare_prompt(topic: str) -> str:
     return f"Create a research plan for the topic: {topic}\n\nPlan:"
 
 
-def get_plan_from_openai(client: OpenAI, prompt: str) -> str:
-    response = client.Completion.create(
+def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
+    response = client.completions.create(
         model="gpt-4-0125-preview",
         prompt=prompt,
         max_tokens=200,
@@ -66,6 +66,6 @@ class ResearchAgent:
             self.cache[topic] = plan
             progress_tracker.complete_task("ResearchAgent", "Create Research Plan")
             return plan
-        except openai.APIError as e:
+        except OpenAIError as e:
             logging.error(f"OpenAI API error: {e}")
             raise
