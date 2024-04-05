@@ -23,8 +23,7 @@ class ImageAgent:
 
 
 class ImageAgent:
-    def __init__(self, client, cache_ttl: int = 3600):
-        self.client = client
+    def __init__(self, cache_ttl: int = 3600):
         self.cache = TTLCache(maxsize=100, ttl=cache_ttl)
 
     def retrieve_images(self, topic: str, progress_tracker) -> List[str]:
