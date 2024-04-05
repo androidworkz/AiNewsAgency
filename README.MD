@@ -31,7 +31,7 @@ git clone https://github.com/androidworkz/AiNewsAgency.git
 ```
 2. navigate to the project directory:
 ```bash
-cd ai-research-and-writing
+cd AiNewsAgency
 ```
 3. Create a virtual environment (optional but recommended):
 
