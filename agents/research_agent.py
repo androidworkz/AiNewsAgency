@@ -33,7 +33,7 @@ def prepare_prompt(topic: str) -> str:
 
 def get_plan_from_openai(prompt: str) -> str:
     client = OpenAI()
-    response = client.Completion.create(
+    response = client.completions.create(
         model="gpt-4-0125-preview",
         messages=[{"role": "system", "content": "You are a helpful assistant."},
                   {"role": "user", "content": prompt}],
