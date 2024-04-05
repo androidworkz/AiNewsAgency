@@ -49,7 +49,7 @@ class ResearchAgent:
         openai.api_key = openai_api_key
         self.cache = TTLCache(maxsize=100, ttl=cache_ttl)
 
-    async def execute_and_write_research(plan: List[str], progress_tracker) -> List[str]:
+    async def execute_and_write_research(self, plan: List[str], progress_tracker) -> List[str]:
         progress_tracker.start_task("ResearchAgent", "Execute Research")
         search_results = execute_research(plan)
         write_results_to_file(search_results)

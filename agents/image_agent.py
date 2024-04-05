@@ -7,7 +7,7 @@ from typing import List
 from aiohttp import ClientSession, ClientError
 
 
-async def download_image(url: str, index: int):
+    async def download_image(self, url: str, index: int):
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as response:
@@ -34,7 +34,7 @@ class ImageAgent:
 
             tasks = []
             for i, image_url in enumerate(image_urls):
-                task = asyncio.ensure_future(download_image(image_url, i))
+                task = asyncio.ensure_future(self.download_image(image_url, i))
                 tasks.append(task)
 
             await asyncio.gather(*tasks)

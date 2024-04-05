@@ -7,7 +7,7 @@ from agents.editor_agent import EditorAgent
 from utils.progress_tracker import ProgressTracker
 from config import OPENAI_API_KEY
 
-logging.basicConfig(level=logging.INFO, format='%(pastime)s - %(levelness)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 async def main():

@@ -21,7 +21,7 @@ class ProgressTracker:
             self.progress[agent_name][task_name]["status"] = "Completed"
             logging.info(f"{agent_name} completed task: {task_name}")
 
-    def generate_report(self):
+    def generate_report(self) -> str:
         report = "Progress Report:\n"
         for agent_name, tasks in self.progress.items():
             report += f"\n{agent_name}:\n"
@@ -32,3 +32,4 @@ class ProgressTracker:
                 status = task_details["status"]
                 report += f"  - {task_name}: {status} (Duration: {duration:.2f} seconds)\n"
         logging.info(report)
+        return report
