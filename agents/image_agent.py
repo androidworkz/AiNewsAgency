@@ -11,14 +11,14 @@ class ImageAgent:
         self.cache = TTLCache(maxsize=100, ttl=cache_ttl)
 
     async def download_image(self, url: str, index: int):
-    try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
-                with open(f"image_{index + 1}.jpg", "wb") as file:
-                    file.write(await response.read())
-    except aiohttp.ClientError as e:
-        logging.error(f"Error downloading image: {e}")
-        raise
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    with open(f"image_{index + 1}.jpg", "wb") as file:
+                        file.write(await response.read())
+        except aiohttp.ClientError as e:
+            logging.error(f"Error downloading image: {e}")
+            raise
 
 
 class ImageAgent:
