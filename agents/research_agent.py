@@ -32,7 +32,7 @@ def prepare_prompt(topic: str) -> str:
 
 def get_plan_from_openai(prompt: str) -> List[str]:
     response = openai.Completion.create(
-        model="text-davinci-003",
+        model="gpt-4-0125-preview",
         prompt=prompt,
         max_tokens=200,
         temperature=0.7,
