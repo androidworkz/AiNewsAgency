@@ -32,8 +32,8 @@ def prepare_prompt(topic: str) -> str:
     return f"Create a research plan for the topic: {topic}\n\nPlan:"
 
 
-def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
-    response = openai.Completion.create(
+def get_plan_from_openai(client, prompt: str) -> List[str]:
+    response = client.Completion.create(
         model="gpt-3.5-turbo-0125",
         prompt=prompt,
         max_tokens=200,
