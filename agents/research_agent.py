@@ -33,8 +33,8 @@ def prepare_prompt(topic: str) -> str:
 
 
 def get_plan_from_openai(client: OpenAI, prompt: str) -> List[str]:
-    response = client.completions.create(
-        model="text-davinci-003",
+    response = client.create_completion(
+        model="text-davinci-004",
         prompt=prompt,
         max_tokens=200,
         temperature=0.7,
